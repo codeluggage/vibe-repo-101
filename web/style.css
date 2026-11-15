@@ -1,0 +1,208 @@
+:root {
+  color-scheme: light dark;
+  --ink: #1c1c1c;
+  --paper: #ffffff;
+  --muted: #666666;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 112.5%;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #ececec;
+    --paper: #1c1c1c;
+    --muted: #a3a3a3;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  padding-bottom: 5rem;
+}
+
+.page {
+  max-width: 40rem;
+  margin: 0 auto;
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.25;
+  margin: 0.5rem 0 1rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--muted);
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.15em;
+}
+
+:focus-visible {
+  outline: 0.2rem solid var(--ink);
+  outline-offset: 0.15rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.button {
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid color-mix(in srgb, var(--muted) 50%, transparent);
+  border-radius: 0.4rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.button.primary {
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 2.75rem;
+  text-decoration: none;
+  color: var(--muted);
+}
+
+/* A label over a text field, with its button beside the field. */
+.add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.add label {
+  flex-basis: 100%;
+  font-weight: 600;
+}
+
+.add input {
+  font: inherit;
+  flex: 1;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--muted) 50%, transparent);
+  border-radius: 0.4rem;
+  background: transparent;
+  color: inherit;
+}
+
+.problem {
+  margin: 0.75rem 0 0;
+  padding: 0.75rem 1rem;
+  border-left: 0.25rem solid #b3261e;
+  background: color-mix(in srgb, #b3261e 12%, transparent);
+}
+
+/* Rows that open a screen, each with its own button at the end. */
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rows > li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+.row-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 3.5rem;
+  padding: 0.5rem 0;
+  text-decoration: none;
+}
+
+.prose {
+  white-space: pre-line;
+}
+
+.about {
+  margin-top: 2.5rem;
+}
+
+dl {
+  margin: 0;
+}
+
+dl > div {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+dt {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+dd {
+  margin: 0.15rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.version-line {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+.update-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+}
+
+.update-bar button {
+  font: inherit;
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+}

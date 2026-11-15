@@ -1,0 +1,88 @@
+# Every push to main and every pull request: type check and test.
+# A push to main also builds the site, checks that its version may replace the
+# live one, publishes dist/ to GitHub Pages and tags the commit with the
+# version. A red check, test or live check publishes nothing.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      release: ${{ steps.release.outputs.release }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Gleam only: the JavaScript target needs no Erlang.
+      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        with:
+          otp-version: false
+          gleam-version: "1.19.2"
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+      - name: Check the types
+        run: gleam check
+      - name: Run the tests
+        run: gleam test
+      - if: github.event_name == 'push'
+        name: Build the site
+        run: gleam run -m app/build
+      - if: github.event_name == 'push'
+        name: Check that this version may replace the live one
+        run: gleam run -m app/live_check
+      - if: github.event_name == 'push'
+        id: release
+        name: Read the version
+        run: echo "release=$(jq -r .release dist/version.json)" >> "$GITHUB_OUTPUT"
+      - if: github.event_name == 'push'
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name == 'push'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        name: Publish the site
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+  # Names the deployed commit with its version, so a version a person says
+  # leads back to the code.
+  # ponytail: one hole. A person who re-runs only the deploy job of an old run
+  # puts that run's old artifact live, and no check sees it: the live check ran
+  # in the check job, against the site that was live then. Re-run the whole
+  # run or push again instead.
+  tag:
+    needs: [check, deploy]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Tag the commit with its version
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE: ${{ needs.check.outputs.release }}
+        run: gh api repos/${{ github.repository }}/git/refs -f "ref=refs/tags/$RELEASE" -f sha=${{ github.sha }}

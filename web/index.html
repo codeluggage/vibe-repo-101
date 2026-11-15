@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="app-version" content="__VERSION__">
+    <meta name="app-commit" content="__COMMIT__">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1c1c1c" media="(prefers-color-scheme: dark)">
+    <title>My app</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="style.css">
+    <script type="module">
+      import { main } from "./js/app/app.mjs";
+      main();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
