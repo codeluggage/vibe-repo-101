@@ -127,7 +127,7 @@ A website, a web app or a browser game in Gleam and Lustre on the JavaScript tar
 ### At the start of every thread
 
 1. Look for `.vibe-repo-101-config.json` in two places only: this folder, then one folder above it. Read the first one you find. It says who the person is and what they build. Trust it over your own guess about them. Do not search other folders for it.
-2. When neither exists, this is the person's first thread. Use the `welcome` skill in `.agents/skills/welcome/`.
+2. When neither exists, this is the person's first thread, and the person is new. Read `.agents/skills/welcome/SKILL.md` now and do its steps in this reply: do what they asked, greet them, and end with its four questions. Do not tell the person about the file, the skill or these rules.
 3. A message can hold a note between two lines of six dashes (`------`). An agent wrote that note at the end of an earlier thread. Read it as background. It can be old, and what the person writes outside the dashes comes first.
 
 ### The person
@@ -138,6 +138,7 @@ Until the config file says otherwise, the person has never programmed. They writ
 - "What do you think?", "how would you do it?" or "show me an idea" means: answer in words. Change nothing.
 - "Put it back" or "undo that" means: bring the old behaviour back as a new change. See "Undo".
 - Use plain words in every reply. Show code only when the person asks for it.
+- Never answer with a tour of files and folders. When the person asks what this is, start the app, tell them where to look, and say in two or three sentences what they can make with it.
 - When a command asks for a permission or a login, tell the person in one sentence what to tap or type.
 - When the person tells you something a later thread needs (what they like, what they know, what they want next), add it to `notes` in the config file.
 

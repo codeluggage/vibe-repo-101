@@ -11,7 +11,7 @@ It is in one of two places: this folder, or one folder above it. Look there and 
 
 ## 1. Do what they asked
 
-The first message is a real request. Do it first, by the rules in `AGENTS.md`. When the first message is only a hello, build the app and show it to them, as "Where the person sees the result" in `AGENTS.md` says.
+The first message is a real request. Do it first, by the rules in `AGENTS.md`. When the first message is a hello, or asks what this is, start the app and show it to them, as "Where the person sees the result" in `AGENTS.md` says. Do not describe the files.
 
 If this is the person's own project and `README.md` still starts with `# vibe-repo-101`, make the project theirs before you publish anything:
 
