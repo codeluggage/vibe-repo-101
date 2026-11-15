@@ -71,7 +71,7 @@ You need Git, [Gleam](https://gleam.run) and [Node.js](https://nodejs.org). The 
 ```sh
 gleam check                  # type check
 gleam test                   # run the tests
-gleam run -m app/serve       # build, then serve at http://localhost:8080/
+gleam run -m app/serve       # build, then serve on http://localhost:8080/
 gleam run -m app/publish     # check, send main to GitHub, wait until the site is live
 gleam run -m app/versions    # the versions that went live, newest first
 ```

@@ -1,18 +1,29 @@
 ---
 name: handoff
-description: Write handoff.md, a short note that the next thread reads first, and bring the person's config file up to date. Use when the person says "hand off", "new thread" or "start fresh", and as the last step of a wrap-up.
+description: Give the person a short note to paste into a new conversation. Use after the third change in one thread, when the person starts on something unrelated to what the thread began with, at the end of a wrap-up, and when the person says "hand off", "new thread" or "start fresh".
 ---
 
 # Hand off
 
-`handoff.md` is a note from this thread to the next one. It is for the agent, not the person. Git ignores it, so do not commit it.
+Each reply sends the whole thread to the model again. A long thread costs the person more of their plan, and the agent gets worse at keeping it all in mind. A new thread that starts from a short note is cheaper and works better. The person is new to this, so you give them the note and tell them what to do with it.
 
-1. Write `handoff.md` in the project folder, over the old one. Keep it under 30 lines:
-   - the date, and the newest live version when the project has a site: from publish in this thread, or from `gleam run -m app/versions`,
-   - what the person asked for, in their own words where you have them,
-   - what is done, with the version it went live in,
-   - what is not done, and why,
-   - what the person decided, liked or did not like,
-   - the one next step.
-2. Open the `.vibe-repo-101-config.json` you read at the start of the thread. In this project's entry under `projects`, set `what` to one sentence that is true now, and `updated` to today. Add to `notes` what this thread taught you about the person that the next project also needs. Keep the file under 60 lines: join old notes that say the same thing.
-3. End your reply with one sentence: the person can start a new thread now, and the new thread reads the note by itself.
+1. Finish what the person asked for first.
+2. Bring the person's memory file up to date: the `.vibe-repo-101-config.json` you read at the start of the thread. In this project's entry under `projects`, set `what` to one sentence that is true now, and `updated` to today. Add to `notes` what this thread taught you about the person that a later thread needs. Keep the file under 60 lines: join notes that say the same thing.
+3. End your reply with the note, in one code block, so the person can copy it in one tap. The first line and the last line of the block are six dashes. Keep it under 20 lines, in plain words:
+
+   ```
+   ------
+   A note from my last conversation with my coding agent. The agent wrote it.
+   Project: <the project's name, and what it is in one sentence>
+   Version now: <the newest version, when the project has a site>
+   I asked for: <in the person's own words where you have them>
+   Done: <what is done, with the version it went live in>
+   Not done: <what is not done, and why>
+   I decided: <what the person decided, liked or did not like>
+   Next step: <the one next step>
+   ------
+   ```
+
+4. Above the block, tell the person in two plain sentences what to do: start a new conversation in this same folder, write what they want next in their own words, and paste the note before or after it. Say why in one sentence: a fresh conversation costs less and works better.
+
+Give the note once per moment. If the person keeps going in this thread, go on with what they ask, and give a new note after three more changes.

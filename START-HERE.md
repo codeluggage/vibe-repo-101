@@ -48,11 +48,20 @@ This address keeps your real email out of your projects.
 
 ## 2. Get the project
 
-Pick one folder where all your projects live, and go there first. On Windows use `C:\src`, because a folder that OneDrive syncs, such as Documents, can stop the agent from working:
+Pick one folder where all your projects live, and go there first.
+
+On Windows use `C:\src`, because a folder that OneDrive syncs, such as Documents, can stop the agent from working:
 
 ```powershell
 mkdir C:\src
 cd C:\src
+```
+
+On macOS and Linux use a folder named `code` in your home folder:
+
+```sh
+mkdir -p ~/code
+cd ~/code
 ```
 
 Then choose one of two ways.
@@ -101,7 +110,7 @@ Type this to your agent:
 
 > Hi! Show me what this is.
 
-The agent shows you the app and tells you where to look. At the end it asks you three short questions about you and what you want to make. Answer in your own words, one line each is plenty. It remembers your answers, so the next conversation starts from there.
+The agent shows you the app and tells you where to look. At the end it asks you four short questions about you and what you want to make. Answer in your own words, one line each is plenty. It remembers your answers, so the next conversation starts from there.
 
 ## 5. Make your first change
 
@@ -143,7 +152,8 @@ The app shows its version at the top of every screen, such as 2026.11.13.1542. I
 - Say which version you are on.
 - "What do you think?" gets an answer and no change.
 - "What can this do?" and "does my idea need a server?" are good questions.
-- When you finish one thing and start another, say "wrap up", then start a new conversation. A long conversation uses up your plan faster. The new one reads the note the last one left. To skip the list and only leave the note, say "hand off".
+- When you are done, say so: "that's all for now". The agent then tells you what it left unsaid: things it assumed, skipped or noticed, that you could not know to ask about.
+- After a few changes the agent gives you a short note between two lines of dashes, and suggests a new conversation. A long conversation uses up your plan faster, and the agent gets worse at keeping it all in mind. Start a new conversation in the same folder, write what you want next in your own words, and paste the note before or after them.
 
 ## From your phone
 

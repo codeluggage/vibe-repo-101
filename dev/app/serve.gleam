@@ -1,5 +1,10 @@
 //// `gleam run -m app/serve [port]` builds the site, then serves `dist/` on
 //// localhost, port 8080 unless given.
+////
+//// The site is served under the project folder's name, such as
+//// `http://localhost:8080/my-game/`, the way GitHub Pages serves it under the
+//// repository's name. The browser keeps saved data per page folder, so two
+//// projects on one port keep their data apart.
 
 import app/build
 import gleam/bit_array
@@ -21,10 +26,16 @@ pub fn main() -> Nil {
       case build.write_site() {
         Error(Nil) -> Nil
         Ok(_) -> {
-          start_server(port, respond)
+          let site =
+            simplifile.current_directory()
+            |> result.unwrap("")
+            |> site_name
+          start_server(port, respond(site, _))
           io.println(
             "Serving dist/ at http://localhost:"
             <> int.to_string(port)
+            <> "/"
+            <> uri.percent_encode(site)
             <> "/ (Ctrl+C stops it)",
           )
         }
@@ -48,19 +59,49 @@ pub fn port(arguments: List(String)) -> Result(Int, Nil) {
   }
 }
 
-fn respond(url: String) -> #(Int, String, BitArray) {
+/// The name of the project folder, from its full path on any system. It is
+/// the site's sub-path on localhost.
+pub fn site_name(directory: String) -> String {
+  string.replace(directory, "\\", "/")
+  |> string.split("/")
+  |> list.filter(fn(s) { s != "" })
+  |> list.last
+  |> result.unwrap("app")
+}
+
+/// The file inside the site that `path` names, when `path` is under the
+/// site's folder: `my-game/style.css` is `style.css` for the site `my-game`.
+pub fn inside_site(site: String, path: String) -> Result(String, Nil) {
+  case string.split_once(path, "/") {
+    Ok(#(first, rest)) if first == site -> Ok(rest)
+    _ -> Error(Nil)
+  }
+}
+
+fn respond(site: String, url: String) -> #(Int, String, BitArray) {
+  let inside = file_for(url) |> result.try(inside_site(site, _))
   let found = {
-    use path <- result.try(file_for(url))
+    use path <- result.try(inside)
     simplifile.read_bits(dist <> "/" <> path)
     |> result.map(fn(body) { #(path, body) })
     |> result.replace_error(Nil)
   }
-  case found {
-    Ok(#(path, body)) -> #(200, content_type(path), body)
-    Error(Nil) -> #(
+  case inside, found {
+    _, Ok(#(path, body)) -> #(200, content_type(path), body)
+    Ok(_), Error(Nil) -> #(
       404,
       "text/plain; charset=utf-8",
       bit_array.from_string("Not found"),
+    )
+    // Outside the site's folder: send the browser into it.
+    Error(Nil), _ -> #(
+      200,
+      "text/html; charset=utf-8",
+      bit_array.from_string(
+        "<!doctype html><meta http-equiv=\"refresh\" content=\"0; url=/"
+        <> uri.percent_encode(site)
+        <> "/\">",
+      ),
     )
   }
 }

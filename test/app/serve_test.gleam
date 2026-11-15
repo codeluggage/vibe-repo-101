@@ -34,3 +34,19 @@ pub fn port_test() {
   assert serve.port(["web"]) == Error(Nil)
   assert serve.port(["8791", "8792"]) == Error(Nil)
 }
+
+pub fn the_site_is_named_after_the_project_folder_test() {
+  assert serve.site_name("/Users/sam/code/my-game") == "my-game"
+  assert serve.site_name("C:\\src\\my-game") == "my-game"
+  assert serve.site_name("/Users/sam/code/my-game/") == "my-game"
+  assert serve.site_name("") == "app"
+}
+
+pub fn only_paths_under_the_site_folder_are_inside_it_test() {
+  assert serve.inside_site("my-game", "my-game/index.html") == Ok("index.html")
+  assert serve.inside_site("my-game", "my-game/js/app/app.mjs")
+    == Ok("js/app/app.mjs")
+  assert serve.inside_site("my-game", "index.html") == Error(Nil)
+  assert serve.inside_site("my-game", "other/index.html") == Error(Nil)
+  assert serve.inside_site("my-game", "my-game") == Error(Nil)
+}
