@@ -197,7 +197,9 @@ The person is new to working with an agent. They do not know to ask what you lef
 Say this to the person in plain words before you build, when their idea needs more than the starter gives.
 
 - **Fits as it is:** a website, a tool, an app for one person's own data, and a game drawn with HTML and CSS (cards, boards, puzzles, turns, text, idle games).
-- **A game with fast movement:** draw on a `<canvas>` through a small FFI file. The game's state and its rules stay in Gleam as plain functions with tests, one step per frame. When the game needs what a browser cannot give, it can move to a game engine later, and the rules written here are the design to port.
+- **A game with movement, in 2D:** draw on a `<canvas>` with the browser's own Canvas 2D. Add no game engine: an engine keeps its own state, and then two things own the game. Gleam owns all of it as three plain functions with tests: `update(model, keys, dt)` for one step of the rules, a `tick` that adds up real time and runs `update` in fixed steps of 1/60 second (cap one frame at 0.25 s), and `view(model)` that returns a list of shapes to draw. One FFI file draws the shapes, reads which keys are held, and calls `requestAnimationFrame`. Only numbers and strings cross into that file. Menus and scores stay in Lustre.
+- **A game in 3D:** the same three functions, and the FFI file draws with three.js. Copy `three.module.js`, `three.core.js` and the licence file from the three.js package into `web/vendor/three/`, and name it in an import map in `web/index.html`. Tell the person first: it adds about 2 MB that every visitor loads once.
+- **When a game outgrows the browser** (it needs an editor, a build for a game store, or a team), it moves to a game engine. The Gleam rules are the design to port, and 3D models in glTF move over as they are. The code does not move over.
 - **Needs a server:** accounts, data that several people share, payments, and any secret such as an API key. This template has no server. Say so, and say that a server costs money and upkeep. Gleam runs servers too ([.agents/gleam-backend.md](.agents/gleam-backend.md)), as a second project beside this one.
 
 ### Always
