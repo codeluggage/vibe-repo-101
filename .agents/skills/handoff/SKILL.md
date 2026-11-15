@@ -9,7 +9,7 @@ Each reply sends the whole thread to the model again. A long thread costs the pe
 
 1. Finish what the person asked for first.
 2. Bring the person's memory file up to date: the `.vibe-repo-101-config.json` you read at the start of the thread. In this project's entry under `projects`, set `what` to one sentence that is true now, and `updated` to today. Add to `notes` what this thread taught you about the person that a later thread needs. Keep the file under 60 lines: join notes that say the same thing.
-3. End your reply with the note, in one code block, so the person can copy it in one tap. The first line and the last line of the block are six dashes. Keep it under 20 lines, in plain words:
+3. End your reply with the note, in one code block, so the person can copy it in one tap. Nothing comes after the block. The first line and the last line of the block are six dashes. Keep it under 20 lines, in plain words:
 
    ```
    ------

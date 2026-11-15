@@ -8,7 +8,7 @@ description: Say what was left unsaid, when the work is done. Use when the perso
 While the work was going on, you kept things to yourself that did not fit the moment. The person does not know to ask for them. Now is the time to say them.
 
 1. Write from what this thread already holds. Do not read files or run commands to build the list.
-2. Reply with what was left unsaid, as a short list in plain words. Put first anything you told the person earlier in this thread that is wrong now. Then look for:
+2. Start your reply with what was left unsaid, as a short list in plain words, under the line "What I left unsaid:". Put first anything you told the person earlier in this thread that is wrong now. Then look for:
    - something you assumed and did not check,
    - a step you skipped, or a check that did not run,
    - something that may look wrong in the app,
