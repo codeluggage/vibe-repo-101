@@ -49,6 +49,6 @@ Each reply sends the whole thread to the model again. A long thread costs the pe
    - **What the person decided** holds what they chose, liked or did not like, when a later thread needs it. Keep it under 8 lines.
    - When the person says "drop 6", remove that point.
    - When the file does not fit in 40 lines, ask the person which open points to drop.
-5. End your reply with the open points, in the same order and with the same numbers as the file. Then tell the person in two plain sentences what to do: start a new conversation in this same folder, and say "continue" for the first point, name a number, or ask for something new. Say why in one sentence: a fresh conversation costs less and works better, and the list is saved, so nothing is lost.
+5. End your reply with the points under "Open", copied from the file: the same order, the same numbers, the same words. Then tell the person in two plain sentences what to do: start a new conversation in this same folder, and say "continue" for the first point, name a number, or ask for something new. Say why in one sentence: a fresh conversation costs less and works better, and the list is saved, so nothing is lost.
 
 Do this once per moment. If the person keeps going in this thread, go on with what they ask, and hand off again after three more changes.

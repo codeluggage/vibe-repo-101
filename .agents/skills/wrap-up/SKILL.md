@@ -17,5 +17,10 @@ While the work was going on, you kept things to yourself that did not fit the mo
    - what you would do differently now.
 
    Skip what is empty.
-3. Give each point the next free number, by the rules in `.agents/skills/handoff/SKILL.md`. Start your reply with the line "What I left unsaid:" and the points, each as `- #8 text` in one or two plain sentences. When there is nothing, say "Nothing left unsaid."
+3. Give each point the next free number, by the rules in `.agents/skills/handoff/SKILL.md`. Write each as `#8 text` in one or two plain sentences.
 4. Then follow the handoff skill in `.agents/skills/handoff/SKILL.md`. The points from step 3 go into `handoff.md` under "Open" with the same numbers, in the order to do them, together with the points that were already there.
+5. Write your reply in this order:
+   - Anything you told the person earlier in this thread that is wrong now, one plain sentence each.
+   - The line "What is open, in the order to do it. The points marked (new) are what I left unsaid:". When step 2 found nothing, the line "Nothing left unsaid. What is open, in the order to do it:".
+   - The points under "Open", copied from `handoff.md`: the same order, the same numbers, the same words. Add "(new)" to the end of each point from step 3.
+   - The last sentences that the handoff skill asks for.
