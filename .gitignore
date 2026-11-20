@@ -5,3 +5,4 @@ erl_crash.dump
 .DS_Store
 .claude/settings.local.json
 /.vibe-repo-101-config.json
+/handoff.md

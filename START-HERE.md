@@ -98,6 +98,7 @@ Keep your projects next to each other in the same folder. Then your agent rememb
 3. Choose "Ask for approval". Codex then asks you before it runs a command or uses the internet.
 4. When Codex asks if you trust this project, say yes.
 5. Open "Review hooks" and trust the two hooks. They run the checks after each change.
+6. On Windows: open Settings, then "Computer use", and turn off the switch named "Any App". With it on, Codex can take over your mouse and your screen while it checks its work. If you do not see that setting, skip this step.
 
 **Claude Code**
 
@@ -153,7 +154,7 @@ The app shows its version at the top of every screen, such as 2026.11.13.1542. I
 - "What do you think?" gets an answer and no change.
 - "What can this do?" and "does my idea need a server?" are good questions.
 - When you are done, say so: "that's all for now". The agent then tells you what it left unsaid: things it assumed, skipped or noticed, that you could not know to ask about.
-- After a few changes the agent gives you a short note between two lines of dashes, and suggests a new conversation. A long conversation uses up your plan faster, and the agent gets worse at keeping it all in mind. Start a new conversation in the same folder, write what you want next in your own words, and paste the note before or after them.
+- After a few changes the agent suggests a new conversation. A long conversation uses up your plan faster, and the agent gets worse at keeping it all in mind. Before it suggests that, the agent saves a numbered list of what is still open, such as #4 and #7, in the project folder. Start a new conversation in the same folder and say "continue" for the first point, name a number ("do 7"), or ask for something new. A point keeps its number until it is done. "Drop 4" removes a point.
 
 ## From your phone
 
@@ -163,10 +164,11 @@ Your agent's phone app may let you write to the agent on your computer while you
 
 If your agent has a place for personal instructions, paste this there once:
 
-> When I ask you to change one of my apps or websites, I mean: make the change and show it to me at the usual address. Follow the project's own instructions for checks and publishing. Do any testing yourself. When the change is ready, tell me in plain words what changed, the version I should see, and where to look. If you need me to approve something or decide something, tell me exactly what to do. If I say "what do you think?" or "show me an idea", only talk.
+> When I ask you to change one of my apps or websites, I mean: make the change and show it to me at the usual address. Follow the project's own instructions for checks and publishing. Do any testing yourself, in the background: never take over my mouse, my keyboard or my own browser, because I use the computer while you work. When the change is ready, tell me in plain words what changed, the version I should see, and where to look. If you need me to approve something or decide something, tell me exactly what to do. If I say "what do you think?" or "show me an idea", only talk.
 
 ## If something goes wrong
 
 - If the agent shows an error, ask it to fix the error.
 - If the agent says to ask the person who helps with the project, send its last message to whoever showed you this. If nobody did, ask the agent to explain the message in plain words.
 - If the agent says you reached a usage limit, wait and try again later.
+- If the agent takes over your mouse or your browser while you do something else: in Codex, do step 6 of "Open it in your agent" above. Then tell the agent once "your checks get in my way, stop using the browser". It remembers that for every later conversation.

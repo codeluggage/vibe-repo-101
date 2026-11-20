@@ -1,0 +1,3 @@
+# Every text file is stored and checked out with LF line ends, on Windows too.
+# The tests read project files line by line, and CRLF breaks that.
+* text=auto eol=lf

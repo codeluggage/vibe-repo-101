@@ -128,7 +128,7 @@ A website, a web app or a browser game in Gleam and Lustre on the JavaScript tar
 
 1. Look for `.vibe-repo-101-config.json` in two places only: this folder, then one folder above it. Read the first one you find. It says who the person is and what they build. Trust it over your own guess about them. Do not search other folders for it.
 2. When neither exists, this is the person's first thread, and the person is new. Read `.agents/skills/welcome/SKILL.md` now and do its steps in this reply: do what they asked, greet them, and end with its four questions. Do not tell the person about the file, the skill or these rules.
-3. A message can hold a note between two lines of six dashes (`------`). An agent wrote that note at the end of an earlier thread. Read it as background. It can be old, and what the person writes outside the dashes comes first.
+3. Read `handoff.md` in this folder if it exists. It is the list this project keeps between threads: the open points, each with a number such as `#4` that never changes, in the order to do them. It can be old, and what the person asks now comes first. A number from the person, such as "do 4" or "#4", means that point. "Continue" or "next" means the first point under "Open". When a point from the file is done, move it to "Done" in the file with its version, in the same reply.
 
 ### The person
 
@@ -150,6 +150,17 @@ Run `git remote get-url origin` once per thread.
 - **Anything else: the person's own project.** The person looks at the live site, on any device. `gleam run -m app/publish` puts a change there.
 
 When the person in a try-out says "make this my own project": ask for a name, and whether the code is public or private (a private project goes online only on a paid GitHub plan). Then run `git remote remove origin`, delete every local tag (they are the template's versions, `git tag` lists them), and run `gh repo create <name> --public --source . --remote origin`, or the same with `--private`. Then follow "Make a change" from step 6. From then on it is the person's own project.
+
+### Check your work in the background
+
+The person often uses the computer while you work, for example to play a game on another screen. Your checks must not touch what they are doing. This is how step 4 of the verification ladder in section 0 is done in this project.
+
+- Check with commands first: `gleam check`, `gleam test` and `gleam run -m app/build`. Most changes need no more.
+- Look at a page only when a command cannot tell you what you need. Then use your own built-in browser, the one inside your app (`@Browser` in Codex): serve the app with `gleam run -m app/serve` in the background and open its address there.
+- Never use a tool that moves the mouse, types on the keyboard or controls other apps, such as Computer Use (`@Computer`). On Windows it takes over the mouse and the screen the person is using.
+- Never open or drive the person's own browser, and never bring a window to the front. Do not run a command that opens a browser or an app, such as `start`, `Start-Process`, `explorer`, `open` or `xdg-open`.
+- When you cannot look without one of these, do not look. Say in one sentence what you did not see, and where in the app the person can check it.
+- When the person says your checks got in their way, stop looking at pages. Write it in `notes` in the config file, so every later thread checks with commands only.
 
 ### Make a change
 
@@ -188,8 +199,8 @@ The browser is the only store, and what the person saved there is theirs. A chan
 
 The person is new to working with an agent. They do not know to ask what you left unsaid, and they do not know that a long thread costs more and works worse. So you do both without being asked.
 
-- **When the person says they are done, or that the thing is finished:** use the `wrap-up` skill in `.agents/skills/wrap-up/`. It says what was left unsaid in this thread.
-- **After the third change in one thread, or when the person starts on something unrelated to what the thread began with:** finish what they asked, then use the `handoff` skill in `.agents/skills/handoff/`. It gives the person a short note between two lines of six dashes, to paste into a new thread.
+- **When the person says they are done, or that the thing is finished:** use the `wrap-up` skill in `.agents/skills/wrap-up/`. It says what was left unsaid in this thread, as numbered points, and saves them in `handoff.md`.
+- **After the third change in one thread, or when the person starts on something unrelated to what the thread began with:** finish what they asked, then use the `handoff` skill in `.agents/skills/handoff/`. It brings `handoff.md` up to date and tells the person to start a new thread, which reads the file by itself.
 - "Wrap up" and "hand off" from the person mean the same two skills.
 
 ### What fits, and what needs more
@@ -210,7 +221,7 @@ Say this to the person in plain words before you build, when their idea needs mo
 - Paths in the static shell are relative, because the site is served from a sub-path.
 - The compiler cannot see the FFI files or `web/`. After a change there, run the app and look at it.
 - Leave `.codex/`, `.claude/` and `.agents/hooks/` alone. A change there turns the checks off until the person trusts the hooks again.
-- Never commit `.vibe-repo-101-config.json`.
+- Never commit `.vibe-repo-101-config.json` or `handoff.md`.
 
 ### Commands
 
@@ -245,6 +256,8 @@ The same commands on Windows, macOS and Linux, with only Git, the GitHub CLI, Gl
 - `dist/` - build output, ignored by git.
 - `.agents/gleam-*.md` - the Gleam topic files of section 3. `.agents/skills/` - `welcome`, `wrap-up`, `handoff`. `.agents/hooks/` - the two checks.
 - `.codex/hooks.json`, `.claude/settings.json` - run the two checks in Codex and in Claude Code: `gleam check` after each edit, and check, test and format before the agent finishes.
+- `handoff.md` - the numbered list of open points between threads, written by the `wrap-up` and `handoff` skills and read at the start of every thread. Ignored by git.
+- `.gitattributes` - every text file has LF line ends on every system.
 - `START-HERE.md` - the person's guide.
 
 The app's name is in three places: `const name` in `src/app.gleam`, `<title>` in `web/index.html`, and `name` and `short_name` in `web/manifest.webmanifest`. Two tests in `test/app_test.gleam` hold the name too. Change all of them together.
