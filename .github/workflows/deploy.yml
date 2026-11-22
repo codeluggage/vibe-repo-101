@@ -2,6 +2,10 @@
 # A push to main also builds the site, checks that its version may replace the
 # live one, publishes dist/ to GitHub Pages and tags the commit with the
 # version. A red check, test or live check publishes nothing.
+# A private project has no website on a free GitHub plan, so a push there only
+# checks and tests: that keeps a copy of the work on GitHub, with no red run.
+# ponytail: a private project on a paid plan does not publish on push either.
+# Ask GitHub whether the website is on in the check job when one needs it.
 name: deploy
 
 on:
@@ -37,25 +41,25 @@ jobs:
         run: gleam check
       - name: Run the tests
         run: gleam test
-      - if: github.event_name == 'push'
+      - if: github.event_name == 'push' && !github.event.repository.private
         name: Build the site
         run: gleam run -m app/build
-      - if: github.event_name == 'push'
+      - if: github.event_name == 'push' && !github.event.repository.private
         name: Check that this version may replace the live one
         run: gleam run -m app/live_check
-      - if: github.event_name == 'push'
+      - if: github.event_name == 'push' && !github.event.repository.private
         id: release
         name: Read the version
         run: echo "release=$(jq -r .release dist/version.json)" >> "$GITHUB_OUTPUT"
-      - if: github.event_name == 'push'
+      - if: github.event_name == 'push' && !github.event.repository.private
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-      - if: github.event_name == 'push'
+      - if: github.event_name == 'push' && !github.event.repository.private
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
 
   deploy:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && !github.event.repository.private
     needs: check
     runs-on: ubuntu-latest
     permissions:

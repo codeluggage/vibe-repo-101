@@ -81,7 +81,7 @@ pub fn the_sentences_say_what_happened_test() {
 
 pub fn the_website_and_permission_sentences_say_what_to_do_test() {
   assert publish.say(PrivateProject)
-    == "This project is private, and GitHub puts a private project online only on a paid GitHub plan, so nothing was published. Make the project public on GitHub, or keep using the copy on this computer with gleam run -m app/serve."
+    == "Your work is saved on GitHub, but this project is private, and GitHub puts a private project online only on a paid GitHub plan. Use the copy on this computer with gleam run -m app/serve, or make the project public on GitHub."
   assert publish.say(WebsiteNotOn)
     == "GitHub did not turn on the website for this project, so nothing was published. GitHub's own words are in the lines above."
   assert publish.say(NoPermission)

@@ -49,7 +49,8 @@ pub type Outcome {
   /// The new build keeps saved data at a lower storage schema number than
   /// the live site.
   StepRemoved
-  /// GitHub did not turn the website on, and the project is private.
+  /// GitHub did not turn the website on, because the project is private.
+  /// The work was still sent, so GitHub keeps a copy of it.
   PrivateProject
   /// GitHub did not turn the website on for another reason, which it gave.
   WebsiteNotOn
@@ -119,7 +120,11 @@ pub fn main() -> Nil {
           detail -> io.println(detail)
         }
         io.println(say(outcome))
-        set_exit_code(1)
+        // A private project's work is saved, so that is no failure.
+        case outcome {
+          PrivateProject -> Nil
+          _ -> set_exit_code(1)
+        }
       }
     }
   }
@@ -180,9 +185,8 @@ pub fn say(outcome: Outcome) -> String {
       <> unpublished
       <> " Put the step back in upgrades in src/app/storage.gleam."
     PrivateProject ->
-      "This project is private, and GitHub puts a private project online only on a paid GitHub plan"
-      <> unpublished
-      <> " Make the project public on GitHub, or keep using the copy on this computer with gleam run -m app/serve."
+      "Your work is saved on GitHub, but this project is private, and GitHub puts a private project online only on a paid GitHub plan."
+      <> " Use the copy on this computer with gleam run -m app/serve, or make the project public on GitHub."
     WebsiteNotOn ->
       "GitHub did not turn on the website for this project"
       <> unpublished
@@ -465,6 +469,9 @@ fn prepare() -> Result(Repository, Stop) {
   site.origin() |> result.map_error(fn(reason) { #(NoAddress, reason) })
 }
 
+/// What `turn_website_on` answers for a private project on a free plan.
+const private: Result(Nil, Stop) = Error(#(PrivateProject, ""))
+
 /// Steps 3 to 5: the commit that GitHub has, sent now or before.
 fn send(
   repository: Repository,
@@ -480,10 +487,25 @@ fn send(
   }
   case ready {
     Error(stop) -> promise.resolve(Error(stop))
-    Ok(#(commit, False)) -> promise.resolve(Ok(commit))
+    Ok(#(commit, False)) -> {
+      use website <- promise.map(turn_website_on(repository))
+      case website == private {
+        True -> Error(#(PrivateProject, ""))
+        False -> Ok(commit)
+      }
+    }
     Ok(#(commit, True)) -> {
       use _ <- promise.try_await(check_live(repository))
-      use _ <- promise.try_await(turn_website_on(repository))
+      use website <- promise.await(turn_website_on(repository))
+      // A private project on a free plan has no website. Its work is still
+      // sent, so GitHub keeps a copy of it.
+      let saved_only = website == private
+      use _ <- promise.try_await(
+        promise.resolve(case saved_only {
+          True -> Ok(Nil)
+          False -> website
+        }),
+      )
       io.println("Sending the change to GitHub.")
       // Never forced: a plain push of main, which GitHub refuses when it has
       // changes this copy has not taken in.
@@ -491,6 +513,8 @@ fn send(
         Error(reason) -> promise.resolve(Error(#(CouldNotRun("git"), reason)))
         Ok(#(status, out, error)) ->
           case read_push(status, out, error), tries {
+            Sent, _ if saved_only ->
+              promise.resolve(Error(#(PrivateProject, "")))
             Sent, _ -> promise.resolve(Ok(commit))
             Behind, 2 -> send(repository, tries: 1)
             Denied, _ -> promise.resolve(Error(#(NoPermission, out <> error)))
