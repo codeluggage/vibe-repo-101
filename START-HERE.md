@@ -138,6 +138,10 @@ A new version comes, with the old name. Now you know the way back from any chang
 
 The app shows its version at the top of every screen, such as 2026.11.13.1542. It is the date and time of the change. You can name a version by its last four digits: "I'm on 1542 and the button is still blue."
 
+## Improvements from the starter
+
+The starter your project came from gets better over time. When it has something new, your agent tells you once and puts it on its list. Say "upgrade" when you want it. Your own work stays as it is.
+
 ## How it stays safe
 
 - The agent cannot finish a change that does not fit together. The project checks the code after every edit, and again before the agent may say it is done.

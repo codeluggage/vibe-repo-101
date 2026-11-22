@@ -141,6 +141,7 @@ Until the config file says otherwise, the person has never programmed. They writ
 - Never answer with a tour of files and folders. When the person asks what this is, start the app, tell them where to look, and say in two or three sentences what they can make with it.
 - When a command asks for a permission or a login, tell the person in one sentence what to tap or type.
 - When the person tells you something a later thread needs (what they like, what they know, what they want next), add it to `notes` in the config file.
+- When the person asks for a lasting change to how you work in this project (a rule, a skill to change, a skill to stop using), write it as one line under "Your rules" at the end of this file. Do not change the sections above it or the files in `.agents/`: an upgrade from the starter replaces them. A rule under "Your rules" wins over the sections above it.
 
 ### Where the person sees the result
 
@@ -148,8 +149,9 @@ Run `git remote get-url origin` once per thread.
 
 - **It ends in `codeluggage/vibe-repo-101`, or there is no remote: a try-out.** The person looks on this computer. If nothing answers at `http://localhost:8080/`, start `gleam run -m app/serve` in the background and leave it running. It prints the address, which ends in the folder's name, such as `http://localhost:8080/my-project/`. After each change run `gleam run -m app/build`. Tell the person to open that address, or to tap Reload on the "New version" bar. Do not publish. When the person wants it online, or wants to keep it, point them to "Make it your own" in `START-HERE.md`.
 - **Anything else: the person's own project.** The person looks at the live site, on any device. `gleam run -m app/publish` puts a change there.
+- **When publish says the work is saved on GitHub but the project is private:** the project has no website on a free GitHub plan. The person looks on this computer, as in a try-out. Every change still ends with publish, because publish is what keeps a copy of the work on GitHub.
 
-When the person in a try-out says "make this my own project": ask for a name, and whether the code is public or private (a private project goes online only on a paid GitHub plan). Then run `git remote remove origin`, delete every local tag (they are the template's versions, `git tag` lists them), and run `gh repo create <name> --public --source . --remote origin`, or the same with `--private`. Then follow "Make a change" from step 6. From then on it is the person's own project.
+When the person in a try-out says "make this my own project": ask for a name, and whether the code is public or private (a private project goes online only on a paid GitHub plan). Then run `git remote rename origin upstream` and `git config remote.upstream.tagOpt --no-tags`, so later upgrades from the starter know where the project began. Delete every local tag (they are the template's versions, `git tag` lists them), and run `gh repo create <name> --public --source . --remote origin`, or the same with `--private`. Then follow "Make a change" from step 6. From then on it is the person's own project.
 
 ### Check your work in the background
 
@@ -165,7 +167,7 @@ The person often uses the computer while you work, for example to play a game on
 ### Make a change
 
 1. Work in this folder, on the branch `main`. One folder, one branch, one site.
-2. In the person's own project, start with `git pull --no-rebase origin main`, so you have the newest files.
+2. In the person's own project, start with `git pull --no-rebase origin main`, so you have the newest files. At the first change in a thread, also look for news from the starter. When `git remote get-url upstream` fails, run `git remote add --no-tags upstream https://github.com/codeluggage/vibe-repo-101`. Run `git fetch --no-tags upstream`. When `git log --oneline -1 HEAD..upstream/main` prints a line and `handoff.md` has no open point about the starter, add one: `- #N The starter has improvements. Say "upgrade" to get them.` Then end this reply with that sentence.
 3. Say in one or two plain sentences what you will change. Then make that one change.
 4. After you edit a `.gleam` file, run `gleam check` and fix every error.
 5. Run `gleam format src test dev`. Commit with a short lowercase message.
@@ -174,7 +176,7 @@ The person often uses the computer while you work, for example to play a game on
 8. If publish was cut off before it printed its last two lines, run it again. With nothing new to send, it picks up the wait where it was.
 9. Reply with what changed and where in the app to look. After a publish, include the last two lines that publish printed.
 
-`gleam run -m app/publish` is the only way you publish. Do not run `git push` yourself.
+`gleam run -m app/publish` is the only way you publish, and the only way work goes to GitHub. Do not run `git push` yourself.
 
 ### Versions
 
@@ -189,7 +191,8 @@ The person often uses the computer while you work, for example to play a game on
 1. Find the change the person means: with the versions command in their own project, with `git log` in a try-out.
 2. Run `git revert --no-edit <commit>` on the commits that made it, newest first. Skip a commit whose message starts with "Merge", and skip a commit named `publish again`: it is empty, and `git revert` stops on it.
 3. Then follow "Make a change" from step 4.
-4. Leave `upgrades` in `src/app/storage.gleam` as it is, even when the change you undo added a store. Remove the screens and keep the store. A browser that already has the store cannot open an app that has fewer.
+4. An upgrade from the starter is not undone this way. When the person wants one out, tell them to ask the person who helps with the project.
+5. Leave `upgrades` in `src/app/storage.gleam` as it is, even when the change you undo added a store. Remove the screens and keep the store. A browser that already has the store cannot open an app that has fewer.
 
 ### What the person saved
 
@@ -202,6 +205,7 @@ The person is new to working with an agent. They do not know to ask what you lef
 - **When the person says they are done, or that the thing is finished:** use the `wrap-up` skill in `.agents/skills/wrap-up/`. It says what was left unsaid in this thread, as numbered points, and saves them in `handoff.md`.
 - **After the third change in one thread, or when the person starts on something unrelated to what the thread began with:** finish what they asked, then use the `handoff` skill in `.agents/skills/handoff/`. It brings `handoff.md` up to date and tells the person to start a new thread, which reads the file by itself.
 - "Wrap up" and "hand off" from the person mean the same two skills.
+- **When the person says "upgrade" or "update the starter", or names the open point about the starter:** use the `upgrade` skill in `.agents/skills/upgrade/`.
 
 ### What fits, and what needs more
 
@@ -287,3 +291,9 @@ A feature is one module under `src/app/`, shaped like `notes.gleam`. It imports 
 6. Put its tests in `test/app/<feature>_test.gleam`.
 
 When the person's app has no use for notes, remove the notes screens and keep the `Notes` store in `upgrades`.
+
+<!-- Your rules: the lines below are the person's. An upgrade from the starter never changes them. -->
+
+## Your rules
+
+The person's own rules for this project. They win over everything above.

@@ -6,4 +6,4 @@
 
 The hooks are already on, in `.claude/settings.json`: `gleam check` after each edit, and check, test and format before you finish. Both call the scripts in `.agents/hooks/`.
 
-The skills are in `.agents/skills/` (`welcome`, `wrap-up`, `handoff`). `AGENTS.md` says when each one applies. Read the skill's `SKILL.md` at that moment.
+The skills are in `.agents/skills/` (`welcome`, `wrap-up`, `handoff`, `upgrade`). `AGENTS.md` says when each one applies. Read the skill's `SKILL.md` at that moment.
